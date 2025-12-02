@@ -1,6 +1,6 @@
 <?php
 
-namespace Maknz\Slack;
+namespace Passwd\Slack;
 
 class ActionConfirmation
 {
