@@ -1,6 +1,6 @@
 <?php
 
-namespace Maknz\Slack;
+namespace Passwd\Slack;
 
 use InvalidArgumentException;
 
@@ -10,7 +10,7 @@ class Message
      * Reference to the Slack client responsible for sending
      * the message.
      *
-     * @var \Maknz\Slack\Client
+     * @var \Passwd\Slack\Client
      */
     protected $client;
 
@@ -85,7 +85,7 @@ class Message
     /**
      * Instantiate a new Message.
      *
-     * @param \Maknz\Slack\Client $client
+     * @param \Passwd\Slack\Client $client
      * @return void
      */
     public function __construct(Client $client)
@@ -182,8 +182,7 @@ class Message
     {
         if ($icon == null) {
             $this->icon = $this->iconType = null;
-
-            return;
+            return $this;
         }
 
         if (mb_substr($icon, 0, 1) == ':' && mb_substr($icon, mb_strlen($icon) - 1, 1) == ':') {
@@ -193,7 +192,6 @@ class Message
         }
 
         $this->icon = $icon;
-
         return $this;
     }
 
@@ -223,11 +221,11 @@ class Message
      * Slack's Markdown-like language.
      *
      * @param bool $value
-     * @return void
+     * @return $this
      */
     public function setAllowMarkdown($value)
     {
-        $this->allow_markdown = (bool) $value;
+        $this->allow_markdown = (bool)$value;
 
         return $this;
     }
@@ -235,7 +233,7 @@ class Message
     /**
      * Enable Markdown formatting for the message.
      *
-     * @return void
+     * @return $this
      */
     public function enableMarkdown()
     {
@@ -247,7 +245,7 @@ class Message
     /**
      * Disable Markdown formatting for the message.
      *
-     * @return void
+     * @return $this
      */
     public function disableMarkdown()
     {
@@ -272,7 +270,7 @@ class Message
      * in Slack's Markdown-like language.
      *
      * @param array $fields
-     * @return void
+     * @return $this
      */
     public function setMarkdownInAttachments(array $fields)
     {
@@ -335,7 +333,7 @@ class Message
         } elseif (is_array($attachment)) {
             $attachmentObject = new Attachment($attachment);
 
-            if (! isset($attachment['mrkdwn_in'])) {
+            if (!isset($attachment['mrkdwn_in'])) {
                 $attachmentObject->setMarkdownFields($this->getMarkdownInAttachments());
             }
 
@@ -344,7 +342,7 @@ class Message
             return $this;
         }
 
-        throw new InvalidArgumentException('Attachment must be an instance of Maknz\\Slack\\Attachment or a keyed array');
+        throw new InvalidArgumentException('Attachment must be an instance of Passwd\\Slack\\Attachment or a keyed array');
     }
 
     /**
@@ -390,7 +388,7 @@ class Message
      * Send the message.
      *
      * @param string $text The text to send
-     * @return void
+     * @return $this
      */
     public function send($text = null)
     {
@@ -399,7 +397,6 @@ class Message
         }
 
         $this->client->sendMessage($this);
-
         return $this;
     }
 }
